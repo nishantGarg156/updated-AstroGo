@@ -1,4 +1,5 @@
 from locust import SequentialTaskSet, HttpUser, constant_throughput, task
+from scenarios.tokenGenerator import TokenGenerator
 from utils.config import BASE_URL
 from scenarios.launch import LaunchJourney
 from scenarios.login import LoginJourney
@@ -33,8 +34,8 @@ class FullJourney(SequentialTaskSet):
         launch = LaunchJourney(self.client)
         platform_data = launch.run()
 
-        self.platform_id = platform_data.get("platformId")
-        self.x_api_key = platform_data.get("xApiKey")
+        # self.platform_id = platform_data.get("platformId")
+        # self.x_api_key = platform_data.get("xApiKey")
         #Example: MenuListJourney
         menu = MenuListJourney(self.client, self.platform_id, self.x_api_key)
         tab_link = menu.run()
@@ -60,22 +61,25 @@ class FullJourney(SequentialTaskSet):
             content_type="MOVIE"
         )
         fav.run()
-        # # Sports page (optional)
-        # if random.random() < 0.7 and sports_tab_id:
-        #     sports = SportPageHierarchy(self.client, sports_tab_id, self.x_api_key)
-        #     sports.run()
+        # Sports page (optional)
+        if random.random() < 0.7 and sports_tab_id:
+            sports = SportPageHierarchy(self.client, sports_tab_id, self.x_api_key)
+            sports.run()
 
-        # # Movie page (optional)
-        # if random.random() < 0.3 and movie_tab_id:
-        #     movie = MovieHierarchy(self.client, movie_tab_id, self.x_api_key)
-        #     movie.run()
+        # Movie page (optional)
+        if random.random() < 0.3 and movie_tab_id:
+            movie = MovieHierarchy(self.client, movie_tab_id, self.x_api_key)
+            movie.run()
 
-        # # Content details
-        # content_detail_page = ContentDetail(self.client, self.x_api_key)
-        # content_detail_page.run()
+        # Content details
+        content_detail_page = ContentDetail(self.client, self.x_api_key)
+        content_detail_page.run()
+
+        token_gen = TokenGenerator(self.client, self.x_api_key, self.access_token)
+        token_gen.run()
 
 
 class FullUserFlow(HttpUser):
-    wait_time = constant_throughput(0.05)  # ~1 journey every 20 sec per user
+    wait_time = constant_throughput(0.1)  # ~1 journey every 20 sec per user
     tasks = [FullJourney]
     host = BASE_URL

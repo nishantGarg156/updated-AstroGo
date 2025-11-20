@@ -36,7 +36,7 @@ class TokenGenerator:
             headers=headers,
             name="entitlments_API"
         )
-        print(resp.json())
+        #print(resp.json())
         self.entitlementResponse = resp.json()
 
         check(resp, 200, "sessionId")
@@ -78,8 +78,8 @@ class TokenGenerator:
         )
 
         self.uwmToken = resp.json().get("data", {}).get("cdnToken", {}).get("token")
-        print(resp.json())
-        print(self.movieContentId)
+        # print(resp.json())
+        # print(self.movieContentId)
         # print(self.uwmToken)
 
         check(resp, 200, "Watermark Token Generated successfully")
@@ -122,8 +122,8 @@ class TokenGenerator:
         )
 
         self.ctgToken = resp.json().get("data", {}).get("drmToken", {}).get("token")
-        print(resp.json())
-        print(self.seriesContentId)
+        # print(resp.json())
+        # print(self.seriesContentId)
         # print(self.ctgToken)
 
         check(resp, 200, "DRM Token Generated successfull")

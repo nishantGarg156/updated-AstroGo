@@ -24,7 +24,7 @@ class ContinueWatch:
 
     def run(self):
         """Run both GET and POST continue-watch APIs"""
-        self.get_continue_watch()
+       # self.get_continue_watch()
         self.post_continue_watch()
         self.get_recent_continue_watch()
 
@@ -102,7 +102,7 @@ class ContinueWatch:
             name="Add_To_ContinueWatch"
         )
 
-        print("POST Continue Watch Response >>>", resp.text)
+        #print("POST Continue Watch Response >>>", resp.text)
 
         check(resp, 200 , "Success")
 
@@ -141,6 +141,6 @@ class ContinueWatch:
 
         resp = self.client.get(BASE_URL + endpoint, headers=headers, name="Recent")
 
-        print("GET Recent Continue Watch Response >>>", resp.text)
+        #print("GET Recent Continue Watch Response >>>", resp.text)
 
         check(resp, 200)

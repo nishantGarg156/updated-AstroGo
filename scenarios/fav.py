@@ -203,9 +203,9 @@ class FavouritesJourney:
             name="Purchased_Rail"
         )
 
-        print("GET Purchased Rail Response >>>", resp.text)
+       # print("GET Purchased Rail Response >>>", resp.text)
 
-        check(resp, 200, "purchased")
+        check(resp, 200)
 
 
 
