@@ -27,4 +27,4 @@ class LaunchJourney:
         return {
             "platformId": data.get("platformId"),
             "xApiKey": data.get("cdnAuthKey")
-        }
+    }
