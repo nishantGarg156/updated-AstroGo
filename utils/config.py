@@ -6,9 +6,16 @@ import uuid
 
 BASE_URL = "https://api.vrgo.load.xp.irdeto.com"
 
+Logging = True
+
 PLATFORM = "WEB"
 
  # generate random device_id
+
+
+def log(string: str):
+    if Logging:
+        print(f"[LOG] {string}")
 
 
 def get_headers(platform: str, x_api_key: str = None, device_id: str = None, token: str = None) -> dict:

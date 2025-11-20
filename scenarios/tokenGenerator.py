@@ -1,5 +1,5 @@
 from utils.assertion import check
-from utils.config import BASE_URL, get_headers, PLATFORM
+from utils.config import BASE_URL, get_headers, PLATFORM, log
 from utils.contentId_loader import DeviceIdLoader, ContentLoader
 
 class TokenGenerator:
@@ -36,7 +36,7 @@ class TokenGenerator:
             headers=headers,
             name="entitlments_API"
         )
-        print(resp.json())
+        log(resp.json())
         self.entitlementResponse = resp.json()
 
         check(resp, 200, "sessionId")
@@ -78,9 +78,9 @@ class TokenGenerator:
         )
 
         self.uwmToken = resp.json().get("data", {}).get("cdnToken", {}).get("token")
-        print(resp.json())
-        print(self.movieContentId)
-        # print(self.uwmToken)
+        log(resp.json())
+        log(self.movieContentId)
+        log(self.uwmToken)
 
         check(resp, 200, "Watermark Token Generated successfully")
 
@@ -122,9 +122,9 @@ class TokenGenerator:
         )
 
         self.ctgToken = resp.json().get("data", {}).get("drmToken", {}).get("token")
-        print(resp.json())
-        print(self.seriesContentId)
-        # print(self.ctgToken)
+        log(resp.json())
+        log(self.seriesContentId)
+        log(self.ctgToken)
 
         check(resp, 200, "DRM Token Generated successfull")
 
