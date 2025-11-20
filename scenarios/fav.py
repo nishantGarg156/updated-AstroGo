@@ -34,6 +34,7 @@ class FavouritesJourney:
 
         # Always get favourites list (100% chance)
         self.get_favourites_list()
+        self.get_purchased_rail()
 
         # 10% chance to remove from favourites
         if random.random() < 0.1:
