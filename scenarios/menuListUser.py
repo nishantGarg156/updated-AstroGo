@@ -34,8 +34,8 @@ class MenuListJourney:
             if tab_name_lower in target_tabs:
                 tab_link_map[tab_name] = item.get("linkToPage")  # Preserve original casing
 
-        # print("\n✅ Extracted tabName → linkToPage:")
+        # log("\n✅ Extracted tabName → linkToPage:")
         # for tab, link in tab_link_map.items():
-        #     print(f"  {tab}: {link}")
+        #     log(f"  {tab}: {link}")
 
         return tab_link_map

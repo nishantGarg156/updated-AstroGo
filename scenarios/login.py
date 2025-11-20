@@ -1,4 +1,4 @@
-from utils.config import get_headers, BASE_URL, PLATFORM
+from utils.config import get_headers, BASE_URL, PLATFORM, log
 from utils.assertion import check
 from utils.contentId_loader import DeviceIdLoader
 import json
@@ -55,8 +55,8 @@ class LoginJourney:
         }
 
         resp = self.client.post(BASE_URL + code_url, headers=headers, data=data)
-        # print(f"[INFO] Code API response status: {resp.status_code} for device_id: {self.device_id}")
-        # print(f"[INFO] Code API response body: {resp.text}")
+        # log(f"[INFO] Code API response status: {resp.status_code} for device_id: {self.device_id}")
+        # log(f"[INFO] Code API response body: {resp.text}")
         check(resp, 200)
 
         try:
@@ -90,8 +90,8 @@ class LoginJourney:
         }
 
         resp = self.client.post(BASE_URL + subject_url, headers=headers, data=data , name = "Subject_API_Login")
-        # print(f"[INFO] Subject API response status: {resp.status_code}")
-        # print(f"[INFO] Subject API response body: {resp.text}")
+        # log(f"[INFO] Subject API response status: {resp.status_code}")
+        # log(f"[INFO] Subject API response body: {resp.text}")
         check(resp, 200, "configurationKey")
 
         try:

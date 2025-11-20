@@ -1,5 +1,5 @@
 from utils.assertion import check
-from utils.config import BASE_URL, get_headers, PLATFORM
+from utils.config import BASE_URL, get_headers, PLATFORM, log
 
 class SportPageHierarchy:
     def __init__(self, client, sport_id, x_api_key):
@@ -10,7 +10,7 @@ class SportPageHierarchy:
     def run(self):
         headers = get_headers(PLATFORM, self.x_api_key)
 
-        print(f"[INFO] Accessing Sports Page with sport_id: {self.sport_id}")
+        log(f"[INFO] Accessing Sports Page with sport_id: {self.sport_id}")
 
         hierarchy_endpoint = f"/homescreen-service/pub/v1/rail-hierarchy/{self.sport_id}?offset=0&limit=10"
         resp = self.client.get(BASE_URL + hierarchy_endpoint, headers=headers , name = "railHierarchy_SportsPage")

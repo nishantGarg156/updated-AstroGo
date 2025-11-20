@@ -3,7 +3,7 @@
 import random
 from time import time
 from utils.assertion import check
-from utils.config import BASE_URL, get_headers, PLATFORM
+from utils.config import BASE_URL, get_headers, PLATFORM, log
 from utils.contentId_loader import ContentLoader
 
 class ContentDetail:
@@ -16,7 +16,7 @@ class ContentDetail:
         loader = ContentLoader()
         self.movie_id = loader.get_random_movie_id()
         self.series_id = loader.get_random_series_id()
-        print(f"[INFO] Using series_id: {self.series_id}")
+        log(f"[INFO] Using series_id: {self.series_id}")
 
     def run(self):
         rand_val = random.random()
@@ -29,12 +29,12 @@ class ContentDetail:
             if self.movie_id:
                 self.get_movie_content()
             else:
-                print("[ERROR] No movie ID found in CSV.")
+                log("[ERROR] No movie ID found in CSV.")
 
             if self.series_id:
                 self.get_series_content()
             else:
-                print("[ERROR] No series ID found in CSV.")
+                log("[ERROR] No series ID found in CSV.")
 
 
     def get_movie_content(self):
@@ -59,11 +59,11 @@ class ContentDetail:
      season_list = response_json.get("data", {}).get("meta", {}).get("seasonList", [])
 
      if not season_list:
-        print(f"[WARN] No seasons found for series_id: {self.series_id}")
+        log(f"[WARN] No seasons found for series_id: {self.series_id}")
         return None
 
      first_season_id = season_list[0].get("id")
-     print(f"First season id: {first_season_id}")
+     log(f"First season id: {first_season_id}")
 
      self.first_season_id = first_season_id
 

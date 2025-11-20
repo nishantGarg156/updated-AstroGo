@@ -13,9 +13,10 @@ PLATFORM = "WEB"
  # generate random device_id
 
 
-def log(string: str):
+def log(*args, sep: str = " ", end: str = "\n") -> None:
+    """Log multiple values when Logging is enabled."""
     if Logging:
-        print(f"[LOG] {string}")
+        print("[LOG]", *args, sep=sep, end=end)
 
 
 def get_headers(platform: str, x_api_key: str = None, device_id: str = None, token: str = None) -> dict:

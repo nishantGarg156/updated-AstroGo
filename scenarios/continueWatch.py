@@ -1,6 +1,6 @@
 import json
 import random
-from utils.config import get_headers, BASE_URL, PLATFORM
+from utils.config import get_headers, BASE_URL, PLATFORM, log
 from utils.contentId_loader import DeviceIdLoader, ContentLoader
 from utils.assertion import check
 
@@ -102,7 +102,7 @@ class ContinueWatch:
             name="Add_To_ContinueWatch"
         )
 
-        print("POST Continue Watch Response >>>", resp.text)
+        log("POST Continue Watch Response >>>", resp.text)
 
         check(resp, 200 , "Success")
 
@@ -141,6 +141,6 @@ class ContinueWatch:
 
         resp = self.client.get(BASE_URL + endpoint, headers=headers, name="Recent")
 
-        print("GET Recent Continue Watch Response >>>", resp.text)
+        log("GET Recent Continue Watch Response >>>", resp.text)
 
         check(resp, 200)

@@ -1,4 +1,4 @@
-from utils.config import get_headers, BASE_URL, PLATFORM
+from utils.config import get_headers, BASE_URL, PLATFORM, log
 from utils.assertion import check
 from utils.contentId_loader import DeviceIdLoader, ContentLoader
 import json
@@ -114,7 +114,7 @@ class FavouritesJourney:
             name="Get_Favourite_List"
         )
 
-        #print("GET Favourite List Response >>>>>>>", resp.text)
+        log("GET Favourite List Response >>>>>>>", resp.text)
         check(resp, 200)
 
 
@@ -158,7 +158,7 @@ class FavouritesJourney:
             name="Remove_Favourite"
         )
 
-       # print("Remove Favourite Response >>>>>>>>>", resp.text)
+        log("Remove Favourite Response >>>>>>>>>", resp.text)
 
         check(resp, 200)
 
@@ -203,7 +203,7 @@ class FavouritesJourney:
             name="Purchased_Rail"
         )
 
-        print("GET Purchased Rail Response >>>", resp.text)
+        log("GET Purchased Rail Response >>>", resp.text)
 
         check(resp, 200, "purchased")
 
