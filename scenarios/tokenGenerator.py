@@ -1,3 +1,4 @@
+import json
 from utils.assertion import check
 from utils.config import BASE_URL, get_headers, PLATFORM, log
 from utils.contentId_loader import DeviceIdLoader, ContentLoader
@@ -14,9 +15,9 @@ class TokenGenerator:
     def run(self):
         self.movieContentId = ContentLoader().get_random_movie_id()
         self.seriesContentId = ContentLoader().get_random_series_id()
-        self.get_entitlements()
-        self.tokenGenerationUWM()
-        self.tokenGenerationCTG()
+        self.entitlementResponse = self.get_entitlements()
+        self.uwmToken = self.tokenGenerationUWM()
+        self.ctgToken = self.tokenGenerationCTG()
 
 # ---------------------------------------------------
 # GET Entitlements
@@ -36,10 +37,15 @@ class TokenGenerator:
             headers=headers,
             name="entitlments_API"
         )
-        log(resp.json())
-        self.entitlementResponse = resp.json()
 
-        check(resp, 200, "sessionId")
+
+        try:
+            check(resp, 200, "sessionId")
+            resp_json = resp.json()
+            log(resp_json)
+            return resp_json
+        except json.JSONDecodeError:
+            log("[ERROR] Failed to parse JSON response from Entitlements API")
 
 
 # ---------------------------------------------------
@@ -77,12 +83,17 @@ class TokenGenerator:
             name="tokenGenerationUWM"
         )
 
-        self.uwmToken = resp.json().get("data", {}).get("cdnToken", {}).get("token")
-        log(resp.json())
-        log(self.movieContentId)
-        log(self.uwmToken)
-
-        check(resp, 200, "Watermark Token Generated successfully")
+        try:
+            check(resp, 200, "Watermark Token Generated successfully")
+            resp_json = resp.json()
+            cdnToken = resp_json.get("data", {}).get("cdnToken", {}).get("token")
+            log(" CDN TOKEN >>>>", cdnToken)
+            if not cdnToken:
+                log(f"[ERROR] UWM Token not found in response: {resp_json}")
+                log(f"[ERROR] Movie Content used: {self.movieContentId}")
+            return cdnToken
+        except json.JSONDecodeError:
+            log("[ERROR] Failed to parse JSON response from UWM token generation")
 
 
 
@@ -121,10 +132,15 @@ class TokenGenerator:
             name="tokenGenerationCTG"
         )
 
-        self.ctgToken = resp.json().get("data", {}).get("drmToken", {}).get("token")
-        log(resp.json())
-        log(self.seriesContentId)
-        log(self.ctgToken)
-
-        check(resp, 200, "DRM Token Generated successfull")
+        try:
+            check(resp, 200, "DRM Token Generated successfull")
+            resp_json = resp.json()
+            drmToken = resp_json.get("data", {}).get("drmToken", {}).get("token")
+            log(" DRM TOKEN >>>>", drmToken)
+            if not drmToken:
+                log(f"[ERROR] CTG Token not found in response: {resp_json}")
+                log(f"[ERROR] Series Content used: {self.seriesContentId}")
+            return drmToken
+        except json.JSONDecodeError:
+            log("[ERROR] Failed to parse JSON response from CTG token generation")
 
