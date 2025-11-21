@@ -9,12 +9,8 @@ class TokenGenerator:
         self.token = token
         self.x_api_key = x_api_key
         self.deviceId = DeviceIdLoader.get_next_device_id()
-        # self.movieContentId = ContentLoader().get_random_movie_id()
-        # self.seriesContentId = ContentLoader().get_random_series_id()
 
     def run(self):
-        self.movieContentId = ContentLoader().get_random_movie_id()
-        self.seriesContentId = ContentLoader().get_random_series_id()
         self.entitlementResponse = self.get_entitlements()
         self.uwmToken = self.tokenGenerationUWM()
         self.ctgToken = self.tokenGenerationCTG()
@@ -52,6 +48,7 @@ class TokenGenerator:
 # POST token Generation UWM
 # ---------------------------------------------------
     def tokenGenerationUWM(self):
+        self.movieContentId = ContentLoader().get_random_movie_id()
         endpoint = "/token-generator-service/v2/uwm?isStatic=false&previewTokenRequired=true"
 
         headers = get_headers(
@@ -101,6 +98,7 @@ class TokenGenerator:
 # POST token Generation CTG
 # ---------------------------------------------------
     def tokenGenerationCTG(self):
+        self.seriesContentId = ContentLoader().get_random_series_id()
         endpoint = "/token-generator-service/v1/ctg?isStatic=false"
 
         headers = get_headers(

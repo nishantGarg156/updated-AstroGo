@@ -42,10 +42,10 @@ class FullJourney(SequentialTaskSet):
         # movie_tab_id = tab_link.get("Movies")
         # sports_tab_id = tab_link.get("Sports")
 
-        # token_gen = TokenGenerator(self.client, self.x_api_key, self.access_token)
-        # token_gen.run()
-        content = ContentDetail(self.client, self.x_api_key)
-        content.run()
+        token_gen = TokenGenerator(self.client, self.x_api_key, self.access_token)
+        token_gen.run()
+        # content = ContentDetail(self.client, self.x_api_key)
+        # content.run()
 
 class FullUserFlow(HttpUser):
     wait_time = constant_throughput(0.05)  # ~1 journey every 20 sec per user

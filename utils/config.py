@@ -6,16 +6,16 @@ import uuid
 
 BASE_URL = "https://api.vrgo.load.xp.irdeto.com"
 
-Logging = True
+Logging = True  #To enable/disable logging
 
 PLATFORM = "WEB"
 
  # generate random device_id
 
 
-def log(*args, sep: str = " ", end: str = "\n") -> None:
+def log(*args, sep: str = " ", end: str = "\n", forcePrint = False) -> None:
     """Log multiple values when Logging is enabled."""
-    if Logging:
+    if Logging or forcePrint:
         print("[LOG]", *args, sep=sep, end=end)
 
 
