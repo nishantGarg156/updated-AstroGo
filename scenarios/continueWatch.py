@@ -27,6 +27,7 @@ class ContinueWatch:
         self.get_continue_watch()
         self.post_continue_watch()
         self.get_recent_continue_watch()
+        self.post_progress()
 
     # ---------------------------------------------------
     # GET Continue Watch List
@@ -144,3 +145,56 @@ class ContinueWatch:
         log("GET Recent Continue Watch Response >>>", resp.text)
 
         check(resp, 200)
+
+    # ---------------------------------------------------
+    # POST Progress API
+    # ---------------------------------------------------
+    def post_progress(self):
+        """
+        POST progress data to the subscriber-event-service.
+        """
+        endpoint = "/subscriber-event-service/cw/v3/progress"
+
+        headers = get_headers(
+            PLATFORM,
+            x_api_key=self.x_api_key,
+            device_id=self.device_id,
+            token=self.token
+        )
+
+        # Add curl-style headers
+
+        headers.update({
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "en-US,en;q=0.9",
+            "content-type": "application/json",
+            "cp_id": self.subscriber_id,
+            "entitlementhash": "6394cc961095166f34011486129510521be23aa7",
+            "environmentcode": "MAIN",
+            "language": "eng",
+            "languagecode": "eng",
+            "local": "IND",
+            "origin": "https://web.vrgo.load.xp.irdeto.com",
+            "platform": "WEB",
+            "priority": "u=1, i",
+            "profileid": self.profile_id,
+            "device_id": self.device_id,
+            "profiletype": "ADULT",
+            "requestcount": "1",
+            "tenant_identifier": "master"
+        })
+
+        payload = {
+            "filters": []
+        }
+
+        resp = self.client.post(
+            BASE_URL + endpoint,
+            headers=headers,
+            json=payload,
+            name="Post_Progress API"
+        )
+
+        log("POST Progress Response >>>", resp.json())
+
+        check(resp, 200, "Data Fetched Successfully")
