@@ -138,6 +138,7 @@ class ContentDetail:
             check(response, 200, "Content Fetched Successfully")
             response_json = response.json()
             log("[INFO] Series_S1E1 Content detail fetched successfully.", response_json)
+            # log("Series ID Used: ", self.series_id, forcePrint=True)
             return response_json
         except Exception as e:
             log(f"[ERROR] Failed to fetch Series_S1E1 content detail: {e}")

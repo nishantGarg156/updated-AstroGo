@@ -6,7 +6,7 @@ import uuid
 
 BASE_URL = "https://api.vrgo.load.xp.irdeto.com"
 
-Logging = True  #To enable/disable logging
+Logging = False  #To enable/disable logging
 
 PLATFORM = "WEB"
 

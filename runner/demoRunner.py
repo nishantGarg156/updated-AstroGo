@@ -42,12 +42,12 @@ class FullJourney(SequentialTaskSet):
         # movie_tab_id = tab_link.get("Movies")
         # sports_tab_id = tab_link.get("Sports")
 
-        # token_gen = TokenGenerator(self.client, self.x_api_key, self.access_token)
-        # token_gen.run()
-        # content = ContentDetail(self.client, self.x_api_key)
-        # content.run()
-        # continueWatch = ContinueWatch(self.client, self.x_api_key, self.access_token)
-        # continueWatch.run()
+        token_gen = TokenGenerator(self.client, self.x_api_key, self.access_token)
+        token_gen.run()
+        content = ContentDetail(self.client, self.x_api_key)
+        content.run()
+        continueWatch = ContinueWatch(self.client, self.x_api_key, self.access_token)
+        continueWatch.run()
         homePageHierarchy = HomePageHierarchy(self.client, self.x_api_key)
         homePageHierarchy.run()
 
