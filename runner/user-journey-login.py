@@ -81,6 +81,6 @@ class FullJourney(SequentialTaskSet):
 
 
 class FullUserFlow(HttpUser):
-    wait_time = constant_throughput(0.05)  # ~1 journey every 20 sec per user
+    wait_time = constant_throughput(0.017)  # ~1 journey every 20 sec per user
     tasks = [FullJourney]
     host = BASE_URL
