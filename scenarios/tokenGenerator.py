@@ -1,14 +1,14 @@
 import json
 from utils.assertion import check
 from utils.config import BASE_URL, get_headers, PLATFORM, log
-from utils.contentId_loader import DeviceIdLoader, ContentLoader
+from utils.contentId_loader import ContentLoader
 
 class TokenGenerator:
-    def __init__(self, client, x_api_key, token):
+    def __init__(self, client, x_api_key, token, deviceId):
         self.client = client
         self.token = token
         self.x_api_key = x_api_key
-        self.deviceId = DeviceIdLoader.get_next_device_id()
+        self.deviceId = deviceId
 
     def run(self):
         self.entitlementResponse = self.get_entitlements()
@@ -38,7 +38,8 @@ class TokenGenerator:
         try:
             check(resp, 200, "sessionId")
             resp_json = resp.json()
-            log(resp_json)
+            # log(resp_json)
+            log(f"[INFO] Entitlement API Device ID: {self.deviceId}")
             return resp_json
         except json.JSONDecodeError:
             log("[ERROR] Failed to parse JSON response from Entitlements API")
@@ -63,6 +64,7 @@ class TokenGenerator:
             "accept-language": "en-US,en;q=0.9",
             "local": "IND"
         })
+        log(f"[INFO] token-gen API Device ID: {self.deviceId}")
 
         payload = {
             "type": 0,
@@ -107,6 +109,7 @@ class TokenGenerator:
             device_id=self.deviceId,
             token=self.token
         )
+        log(f"[INFO] token-gen-CTG API Device ID: {self.deviceId}")
 
         headers.update({
             "Content-Type": "application/json",

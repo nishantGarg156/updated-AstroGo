@@ -7,7 +7,7 @@ import time
 
 
 class FavouritesJourney:
-    def __init__(self, client, x_api_key, token, content_type="MOVIE"):
+    def __init__(self, client, x_api_key, token, deviceId, content_type="MOVIE"):
         self.client = client
         self.x_api_key = x_api_key
         self.token = token
@@ -18,7 +18,7 @@ class FavouritesJourney:
         self.movie_id = loader.get_random_movie_id()
 
         # Device + Profile ID
-        self.device_id = DeviceIdLoader.get_next_device_id()
+        self.device_id = deviceId
         self.profile_id = DeviceIdLoader.get_next_device_id()
 
         # Random CP_ID (8 digits)
@@ -175,6 +175,7 @@ class FavouritesJourney:
             device_id=self.device_id,
             token=self.token
         )
+        log(f"[INFO] Purchased_Rail API Device ID: {self.device_id}")
 
         # Additional curl headers
         headers.update({
@@ -205,7 +206,7 @@ class FavouritesJourney:
 
         log("GET Purchased Rail Response >>>", resp.text)
 
-        check(resp, 200, "purchased")
+        check(resp, 200, "Content fetched successfully")
 
 
 

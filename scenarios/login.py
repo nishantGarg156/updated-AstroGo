@@ -17,7 +17,7 @@ class LoginJourney:
         """Run the full login journey and return final subject token"""
         self.token = self.code_api()            # Step 1: Get token from code API
         self.subject_token = self.subject_api() # Step 2: Get token from subject API
-        return self.subject_token               # Step 3: Return final token
+        return self.subject_token,self.device_id              # Step 3: Return final token
 
     def code_api(self):
         """Call the code API and extract access token"""
@@ -62,6 +62,7 @@ class LoginJourney:
         try:
             resp_json = resp.json()
             access_token = resp_json.get("access_token")
+            log(f"[INFO] COde API Device ID: {self.device_id}")
             if not access_token:
                 raise Exception("access_token not found in code API response")
             return access_token
@@ -97,6 +98,7 @@ class LoginJourney:
         try:
             resp_json = resp.json()
             access_token = resp_json.get("access_token")
+            log(f"[INFO] Subject API Device ID: {self.device_id}")
             if not access_token:
                 raise Exception("access_token not found in subject API response")
             return access_token

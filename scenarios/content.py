@@ -8,11 +8,11 @@ from utils.contentId_loader import ContentLoader
 from utils.contentId_loader import DeviceIdLoader
 
 class ContentDetail:
-    def __init__(self, client, x_api_key):
+    def __init__(self, client, x_api_key, deviceId):
         self.client = client
         self.x_api_key = x_api_key
         self.headers = get_headers(PLATFORM, self.x_api_key)
-        self.deviceId = DeviceIdLoader.get_next_device_id()
+        self.deviceId = deviceId
 
         # Get random movie ID from content loader
         self.loader = ContentLoader()

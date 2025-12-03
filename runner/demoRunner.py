@@ -26,7 +26,7 @@ class FullJourney(SequentialTaskSet):
         
         # Step 2: Run LoginJourney and get subject token
         login = LoginJourney(self.client, self.x_api_key)
-        self.access_token = login.run()  # This is subject token from subject_api
+        self.access_token, self.deviceId = login.run()  # This is subject token from subject_api
 
     @task
     def run_full_journey(self):
@@ -42,14 +42,14 @@ class FullJourney(SequentialTaskSet):
         # movie_tab_id = tab_link.get("Movies")
         # sports_tab_id = tab_link.get("Sports")
 
-        token_gen = TokenGenerator(self.client, self.x_api_key, self.access_token)
+        token_gen = TokenGenerator(self.client, self.x_api_key, self.access_token, self.deviceId)
         token_gen.run()
-        content = ContentDetail(self.client, self.x_api_key)
-        content.run()
-        continueWatch = ContinueWatch(self.client, self.x_api_key, self.access_token)
-        continueWatch.run()
-        homePageHierarchy = HomePageHierarchy(self.client, self.x_api_key)
-        homePageHierarchy.run()
+        # content = ContentDetail(self.client, self.x_api_key)
+        # content.run()
+        # continueWatch = ContinueWatch(self.client, self.x_api_key, self.access_token)
+        # continueWatch.run()
+        # homePageHierarchy = HomePageHierarchy(self.client, self.x_api_key)
+        # homePageHierarchy.run()
 
 class FullUserFlow(HttpUser):
     wait_time = constant_throughput(0.05)  # ~1 journey every 20 sec per user

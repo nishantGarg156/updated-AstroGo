@@ -6,7 +6,7 @@ from utils.assertion import check
 
 
 class ContinueWatch:
-    def __init__(self, client, x_api_key, token):
+    def __init__(self, client, x_api_key, token, deviceId):
         self.client = client
         self.x_api_key = x_api_key
         self.token = token
@@ -16,7 +16,7 @@ class ContinueWatch:
         self.movie_id = loader.get_random_movie_id()
 
         # Device + Profile IDs from CSV
-        self.device_id = DeviceIdLoader.get_next_device_id()
+        self.device_id = deviceId
         self.profile_id = DeviceIdLoader.get_next_device_id()
 
         # Hardcoded subscriberId as per curl
@@ -41,6 +41,7 @@ class ContinueWatch:
             device_id=self.device_id,
             token=self.token
         )
+        log(f"[INFO] Get_ContinueWatch API Device ID: {self.device_id}")
 
         headers.update({
             "accept": "application/json",
@@ -161,6 +162,7 @@ class ContinueWatch:
             device_id=self.device_id,
             token=self.token
         )
+        log(f"[INFO] Post_Progress API Device ID: {self.device_id}")
 
         # Add curl-style headers
 
