@@ -5,6 +5,7 @@ import uuid
 
 
 BASE_URL = "https://api.vrgo.load.xp.irdeto.com"
+BASE_URL_LOGIN = "https://ops-api.vrgo.load.xp.irdeto.com"
 
 Logging = False  #To enable/disable logging
 

@@ -1,6 +1,6 @@
 import json
 from utils.assertion import check
-from utils.config import BASE_URL, get_headers, PLATFORM, log
+from utils.config import BASE_URL, BASE_URL_LOGIN, get_headers, PLATFORM, log
 from utils.contentId_loader import ContentLoader
 
 class TokenGenerator:
@@ -29,7 +29,7 @@ class TokenGenerator:
         )
 
         resp = self.client.get(
-            BASE_URL + endpoint,
+            BASE_URL_LOGIN + endpoint,
             headers=headers,
             name="entitlments_API"
         )
@@ -101,7 +101,7 @@ class TokenGenerator:
 # ---------------------------------------------------
     def tokenGenerationCTG(self):
         self.seriesContentId = ContentLoader().get_random_series_id()
-        endpoint = "/token-generator-service/v1/ctg?isStatic=false"
+        endpoint = "/token-generator-service/v2/ctg?isStatic=false"
 
         headers = get_headers(
             PLATFORM,
