@@ -246,7 +246,7 @@ class ContentDetail:
         try:
             check(response, 200, "Content Fetched Successfully")
             response_json = response.json()
-            log("[INFO] Channel_Day Content detail fetched successfully.", response_json, forcePrint=True)
+            log("[INFO] Channel_Day Content detail fetched successfully.", response_json)
             # log("Channel ID Used: ", self.channelId, forcePrint=True)
             return response_json
         except Exception as e:
