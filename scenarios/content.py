@@ -5,7 +5,6 @@ from time import time
 from utils.assertion import check
 from utils.config import BASE_URL, get_headers, PLATFORM, log
 from utils.contentId_loader import ContentLoader
-from utils.contentId_loader import DeviceIdLoader
 
 class ContentDetail:
     def __init__(self, client, x_api_key, deviceId):
@@ -18,6 +17,14 @@ class ContentDetail:
         self.loader = ContentLoader()
         self.movie_id = self.loader.get_random_movie_id()
         self.series_id = self.loader.get_random_series_id()
+        self.channelIds = [
+                        "9eeaf889-8810-43a1-aed9-fa249d140686",
+                        "7a6b5c4d-3e2f-1a0b-9c8d-7e6f5a4b3c2d",
+                        "9bdedfe8-43d8-45d5-a2d3-426d3ad2785c",
+                        "477a1cec-4200-4a49-8749-7cb3d2a80f2c",
+                        "2fbb30a6-c065-4b7e-8e53-cdee7e3a4d53",
+                        "0451f2ed-63a7-45bd-a8d0-2f2197d556b5"
+                        ]
 
     def run(self):
         rand_val = random.random()
@@ -27,6 +34,8 @@ class ContentDetail:
             self.get_myBox()
             self.get_contentByFilter()
             self.get_miniMyBox()
+            self.get_Channel_Dates()
+            self.get_Channel_Day()
         else:
             # 75% chance to call both Movies and Series APIs
             if self.movie_id:
@@ -142,6 +151,82 @@ class ContentDetail:
             return response_json
         except Exception as e:
             log(f"[ERROR] Failed to fetch Series_S1E1 content detail: {e}")
+            return None
+    
+    def get_Channel_Dates(self):
+
+        headers = get_headers(
+            PLATFORM,
+            x_api_key=self.x_api_key,
+            device_id=self.deviceId,
+        )
+        self.channelId = random.choice(self.channelIds)
+    
+        endpoint = f"/content-detail-service/pub/v1/channel/{self.channelId}/dates"
+
+        headers.update({
+            "cp_id": "60389013",
+            "entitlementhash": "d6c37306b0447e8db311eec810033507c0168bc7",
+            "environmentcode": "MAIN",
+            "language": "eng",
+            "languagecode": "eng",
+            "local": "IND",
+            "priority": "u=1, i",
+            "profileid": self.deviceId,
+            "profiletype": "ADULT"
+        })
+
+
+        url = BASE_URL + endpoint
+        response = self.client.get(url, headers=headers, name="Channel_Dates API")
+
+        try:
+            check(response, 200, "Content Fetched Successfully")
+            response_json = response.json()
+            log("[INFO] Channel_Dates Content detail fetched successfully.", response_json)
+            # log("Channel ID Used: ", self.channelId, forcePrint=True)
+            return response_json
+        except Exception as e:
+            log(f"[ERROR] Failed to fetch Channel_Dates content detail: {e}")
+            return None
+    
+    
+    def get_Channel_Day(self):
+
+        headers = get_headers(
+            PLATFORM,
+            x_api_key=self.x_api_key,
+            device_id=self.deviceId,
+        )
+        self.channelId = random.choice(self.channelIds)
+        current_time_epoch_ms = int(time() * 1000)
+    
+        endpoint = f"/content-detail-service/pub/v1/channel-day/{self.channelId}/{current_time_epoch_ms}"
+
+        headers.update({
+            "cp_id": "60389013",
+            "entitlementhash": "d6c37306b0447e8db311eec810033507c0168bc7",
+            "environmentcode": "MAIN",
+            "language": "eng",
+            "languagecode": "eng",
+            "local": "IND",
+            "priority": "u=1, i",
+            "profileid": self.deviceId,
+            "profiletype": "ADULT"
+        })
+
+
+        url = BASE_URL + endpoint
+        response = self.client.get(url, headers=headers, name="Channel_Day API")
+
+        try:
+            check(response, 200, "Content Fetched Successfully")
+            response_json = response.json()
+            log("[INFO] Channel_Day Content detail fetched successfully.", response_json, forcePrint=True)
+            # log("Channel ID Used: ", self.channelId, forcePrint=True)
+            return response_json
+        except Exception as e:
+            log(f"[ERROR] Failed to fetch Channel_Day content detail: {e}")
             return None
 
 
