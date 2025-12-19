@@ -26,9 +26,11 @@ class FavouritesJourney:
 
     def run(self):
         """Main entry for Locust"""
+
+        self.randValue = random.random()
         
         # 10% chance to add to favourites
-        if random.random() < 0.1:
+        if self.randValue < 0.1:
             self.add_to_favourites_movie()
             time.sleep(1)  # wait 1 sec before next action
 
@@ -37,7 +39,7 @@ class FavouritesJourney:
         self.get_purchased_rail()
 
         # 10% chance to remove from favourites
-        if random.random() < 0.1:
+        if self.randValue < 0.1:
             time.sleep(1)  # optional delay before remove
             self.remove_favourite_movie()
         

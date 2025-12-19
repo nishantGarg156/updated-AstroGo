@@ -16,16 +16,41 @@ class ContentDetail:
         # Get random movie ID from content loader
         self.loader = ContentLoader()
         self.movie_id = self.loader.get_random_movie_id()
-        self.series_id = self.loader.get_random_series_id()
         self.channelIds = [
                         "9eeaf889-8810-43a1-aed9-fa249d140686",
-                        "7a6b5c4d-3e2f-1a0b-9c8d-7e6f5a4b3c2d",
+                        "115daf54-e3a3-405d-a134-c5db006407c5",
                         "9bdedfe8-43d8-45d5-a2d3-426d3ad2785c",
                         "477a1cec-4200-4a49-8749-7cb3d2a80f2c",
                         "2fbb30a6-c065-4b7e-8e53-cdee7e3a4d53",
                         "0451f2ed-63a7-45bd-a8d0-2f2197d556b5"
                         ]
-
+        
+        self.series_ids = [
+            "fdf02adc-9fe3-438f-8300-3e5a24d3c84a",
+            "13f3b907-200c-4ec4-925a-d65ef8479a0b",
+            "f896b39d-6a29-4ccd-8252-54e921fe171e",
+            "aa7e9b5e-d742-41a9-bdef-d6dc934af109",
+            "0514dab7-4044-4e92-bf83-ee607711e24a",
+            "8bade1d5-b77e-47ae-b5c6-fa686f5118cc",
+            "80f1f99a-69ff-4639-9d75-f11a46d8c62c",
+            "398fba55-ca8f-4e8f-af21-f850ecd41bc7",
+            "2076e890-a3e6-4ef1-832e-84181bf82543",
+            "2076e890-a3e6-4ef1-832e-84181bf82543",
+            "fdf02adc-9fe3-438f-8300-3e5a24d3c84a",
+            "2283abb2-24a8-45de-a2b6-c106fcb3b403",
+            "fdf02adc-9fe3-438f-8300-3e5a24d3c84a",
+            "659747f3-3494-4ee0-afe9-0a331fe82ac5",
+            "5ff1e3c8-6c41-4e86-8c0a-2e2e8d6ed702",
+            "92eae78b-4fba-45d6-90d4-be12c2d1a97d",
+            "ad89886d-a960-454b-a8c6-ff96dc538109",
+            "d06ef9fd-341a-440c-8fed-f679affa888b",
+            "ccf8b11d-82d6-4a2d-870b-d35db0aebf27",
+            "927bcc81-99ab-4555-a8dd-58b8425f8a3a",
+            "dae0965b-7967-47d9-9688-8458a107b633",
+            "7e5003b4-7b5d-479b-80d6-884b7fd905d4",
+            "188b1a35-486a-4e96-8379-5f5753099404",
+            "26bbb1e7-84db-4974-827b-5c987f3a504e"
+        ]
     def run(self):
         rand_val = random.random()
 
@@ -44,7 +69,7 @@ class ContentDetail:
             else:
                 log("[ERROR] No movie ID found in CSV.")
 
-            if self.series_id:
+            if random.choice(self.series_ids):
                 self.get_series_content()
                 self.get_series_trailer()
                 self.get_series_s1e1()
@@ -69,7 +94,7 @@ class ContentDetail:
     def get_series_content(self):
         self.series_id = self.loader.get_random_series_id()
         log(f"[INFO] Using series_id: {self.series_id}")
-        series_url = f"/content-detail-service/pub/v1/series/{self.series_id}"
+        series_url = f"/content-detail-service/pub/v1/series/{random.choice(self.series_ids)}"
         detail_resp = self.client.get(BASE_URL + series_url, headers=self.headers, name="Series API")
         check(detail_resp, 200, "Content Fetched Successfully")
 
@@ -95,7 +120,7 @@ class ContentDetail:
     def get_series_trailer(self):
         self.series_id = self.loader.get_random_series_id()
         log(f"[INFO] Using series_id: {self.series_id}")
-        trailer_series_endpoint = f"/content-detail-service/pub/v1/trailer/series/{self.series_id}"
+        trailer_series_endpoint = f"/content-detail-service/pub/v1/trailer/series/{random.choice(self.series_ids)}"
         trailer_series_resp = self.client.get(BASE_URL + trailer_series_endpoint, headers=self.headers, name="Series Trailer API")
         check(trailer_series_resp, 200, "Content Fetched Successfully")
 
@@ -123,9 +148,8 @@ class ContentDetail:
             x_api_key=self.x_api_key,
             device_id=self.deviceId,
         )
-        self.series_id = self.loader.get_random_series_id()
     
-        endpoint = f"/content-detail-service/pub/v1/s1e1/series/{self.series_id}"
+        endpoint = f"/content-detail-service/pub/v1/s1e1/series/{random.choice(self.series_ids)}"
 
         headers.update({
             "cp_id": "60389013",
